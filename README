@@ -1,0 +1,17 @@
+AirBuddFormBuilder
+==================
+
+A form builder that generates semantic HTML as advocated by Andy Budd in CSS Mastery.
+
+
+Example
+=======
+
+app/views/projects/new.html.erb:
+
+  <% airbudd_form_for @project do |f| %>
+    <%= f.text_field :title %>
+  <% end %>
+
+
+Copyright (c) 2007 Andrew Stewart, released under the MIT license
