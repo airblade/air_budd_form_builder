@@ -10,8 +10,29 @@ Example
 app/views/projects/new.html.erb:
 
   <% airbudd_form_for @project do |f| %>
-    <%= f.text_field :title %>
+    <%= f.text_field :title, :required => true, :name => "Article's Title" %>
   <% end %>
+
+This renders:
+
+  <p>
+    <label for="article_title">Article's Title:
+      <em class="required">(required)</em>
+    </label>
+    <input id="article_title" name="article[title]" type="text" value=""/>
+  </p>
+
+And if the field's value is invalid:
+
+  <p class="error">
+    <label for="article_title">Article's Title:
+      <em class="required">(required)</em>
+      <span class="feedback">can't be blank</span>
+    </label>
+    <input id="article_title" name="article[title]" type="text" value=""/>
+  </p>
+
+See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 
 
 Copyright (c) 2007 Andrew Stewart, released under the MIT license
