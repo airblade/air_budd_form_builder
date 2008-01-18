@@ -18,7 +18,7 @@ app/views/projects/new.html.erb:
   <% airbudd_form_for @project do |f| %>
     <%= f.text_field :title, :required => true, :name => "Article's Title" %>
     <% f.buttons do |b| %>
-      <%= b.save %> or
+      <%= b.save %>
       <%= b.cancel :url => projects_path %>
     <% end %>
   <% end %>
@@ -33,7 +33,7 @@ This renders:
       <input id="article_title" name="article[title]" type="text" value=""/>
     </p>
     <div class="buttons">
-      <button type="submit" class="positive"><img src="/images/icons/tick.png" alt=""/> Save</button> or
+      <button type="submit" class="positive"><img src="/images/icons/tick.png" alt=""/> Save</button>
       <a href="/projects"><img src="/images/icons.pencil.png" alt=""/> Cancel</a>
     </div>
   </form>
@@ -54,13 +54,13 @@ See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 To Do
 =====
 
-* Fieldset element.
-* Legend element.
-* Example CSS
-    - for Wufoo-style buttons and links.
-    - for CSS Mastery XHTML.
-* Summary error messages.
-* Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's with_action plugin: http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons
+Fieldset element.
+Legend element.
+Example CSS:
+  - for Wufoo-style buttons and links.
+  - for CSS Mastery XHTML.
+Summary error messages.
+Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's with_action plugin: http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons
 
 
 Copyright (c) 2007 Andrew Stewart, released under the MIT license.
