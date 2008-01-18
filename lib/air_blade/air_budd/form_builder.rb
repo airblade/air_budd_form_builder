@@ -1,8 +1,9 @@
 module AirBlade
   module AirBudd
 
-    # TODO: fieldset, summary error message.
     class FormBuilder < ActionView::Helpers::FormBuilder
+      include ActionView::Helpers::TextHelper      # so we can use concat
+      include ActionView::Helpers::CaptureHelper   # so we can use capture
 
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
@@ -43,9 +44,78 @@ module AirBlade
         class_eval src, __FILE__, __LINE__
       end
 
-      # Beefs up the field helpers where sensible.
+      # Beefs up the appropriate field helpers.
       (field_helpers - %w(label check_box radio_button fields_for)).each do |name|
         create_field_helper name
+      end
+
+      # Within the form's block you can get good buttons with:
+      #
+      #   <% f.buttons do |b| %>
+      #     <%= b.save %>
+      #     <%= b.cancel %>
+      #   <% end %>
+      #
+      # You can have save, cancel, edit and delete buttons.
+      # Each one takes an optional label.  For example:
+      #
+      #     <%= b.save 'Update' %>
+      #
+      # See the documentation for the +button+ method for the
+      # options you can use.
+      #
+      # You could call the button method directly, e.g. <%= f.button %>,
+      # but then your button would not be wrapped with a div of class
+      # 'buttons'.  The div is needed for the CSS.
+      def buttons(&block)
+        content = capture(self, &block)
+        concat '<div class="buttons">', block.binding
+        concat content, block.binding
+        concat '</div>', block.binding
+      end
+
+      # Buttons and links for REST actions.  Actions that change
+      # state, i.e. save and delete, have buttons.  Other actions
+      # have links.
+      #
+      # For visual feedback with colours and icons, save is seen
+      # as a positive action; delete is negative.
+      #
+      # type = :save|:cancel|:edit|:delete
+      # TODO :new|:all ?
+      #
+      # Options you can use are:
+      #   :label - The label for the button or text for the link.
+      #            Optional; defaults to capitalised purpose.
+      #   :icon  - Whether or not to show an icon to the left of the label.
+      #            Optional; icon will be shown unless :icon set to false.
+      #   :url   - The URL to link to (only used in links).
+      #            Optional; defaults to ''.
+      def button(purpose = :save, options = {})
+        element, icon, nature = case purpose
+                                when :save   then [:button, 'tick',       'positive']
+                                when :cancel then [:a,      'arrow_undo', nil       ]
+                                when :edit   then [:a,      'pencil',     nil       ]
+                                when :delete then [:button, 'cross',      'negative']
+                                end
+        legend = ( (options[:icon] == false || options[:icon] == 'false') ?
+                   '' :
+                   "<img src='/images/icons/#{icon}.png' alt=''></img> " ) +
+                 (options[:label] || purpose.to_s.capitalize)
+        attributes_for_element = {:class => nature}.merge(element == :button  ?
+                                                          {:type => 'submit'} :
+                                                          {:href => (options[:url] || '')} )
+        @template.content_tag(element.to_s,
+                              legend,
+                              attributes_for_element)
+      end
+
+      def method_missing(*args, &block)
+        if args.first.to_s =~ /^(save|cancel|edit|delete)$/
+          button args.shift, *args, &block
+        else
+          super
+        end
       end
 
       private
