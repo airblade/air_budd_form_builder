@@ -3,6 +3,8 @@ AirBuddFormBuilder
 
 A form builder that generates semantic HTML as advocated by Andy Budd in CSS Mastery.
 
+http://www.cssmastery.com
+
 
 Example
 =======
@@ -35,4 +37,12 @@ And if the field's value is invalid:
 See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 
 
-Copyright (c) 2007 Andrew Stewart, released under the MIT license
+To Do
+=====
+
+Fieldset element.
+Example CSS.
+Summary error messages.
+
+
+Copyright (c) 2007 Andrew Stewart, released under the MIT license.
