@@ -66,4 +66,6 @@ Summary error messages.
 Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's with_action plugin: http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons
 
 
+Please send feedback to boss@airbladesoftware.com.
+
 Copyright (c) 2007 Andrew Stewart, released under the MIT license.
