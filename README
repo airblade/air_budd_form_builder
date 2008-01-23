@@ -54,6 +54,9 @@ See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 To Do
 =====
 
+DRY way to show consistent form links, e.g. edit, outside a form.
+  - Cf AirBlade::AirBudd::FormHelper#link_to_form.
+Element for a field's hints.  E.g. formatting hints, examples, validation rules
 Fieldset element.
 Legend element.
 Example CSS:
