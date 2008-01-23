@@ -58,6 +58,7 @@ To Do
 
 DRY way to show consistent form links, e.g. edit, outside a form.
   - Cf AirBlade::AirBudd::FormHelper#link_to_form.
+  - Do we need to wrap buttons/links in a div?  (Probably semantically good to do so?)
 Element for a field's hints.  E.g. formatting hints, examples, validation rules
 Fieldset element.
 Legend element.
