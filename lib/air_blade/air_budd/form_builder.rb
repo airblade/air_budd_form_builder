@@ -37,7 +37,7 @@ module AirBlade
             @template.content_tag('p',
               label_element(method, options, html_options) +
               super(method, options),
-              (@object.errors.any? ? {:class => 'error'} : {})
+              (@object.errors[method].nil? ? {} : {:class => 'error'})
             )
           end
         END
@@ -45,7 +45,8 @@ module AirBlade
       end
 
       # Beefs up the appropriate field helpers.
-      (field_helpers - %w(label check_box radio_button fields_for)).each do |name|
+      %w( text_field text_area password_field file_field
+          country_select select check_box radio_button ).each do |name|
         create_field_helper name
       end
 
@@ -132,7 +133,7 @@ module AirBlade
         html_options['for'] ||= "#{@object_name}_#{field}"
 
         unless @object.errors[field].blank?
-          value += %Q( <span class="feedback">#{@object.errors[field].to_a.to_sentence}</span>)
+          value += %Q( <span class="feedback">#{@object.errors[field].to_a.to_sentence.capitalize}.</span>)
         end
 
         @template.content_tag :label, value, html_options
