@@ -9,6 +9,8 @@ It generates Wufoo-style[2] buttons and links for submitting the form, cancellin
 [2] http://particletree.com/features/rediscovering-the-button-element/
 [3] http://famfamfam.com/lab/icons/silk/
 
+Please send feedback to boss@airbladesoftware.com.
+
 
 Example
 =======
@@ -65,7 +67,5 @@ Example CSS:
 Summary error messages.
 Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's with_action plugin: http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons
 
-
-Please send feedback to boss@airbladesoftware.com.
 
 Copyright (c) 2007 Andrew Stewart, released under the MIT license.
