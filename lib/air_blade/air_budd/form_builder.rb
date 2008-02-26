@@ -8,7 +8,10 @@ module AirBlade
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
       #
-      # <%= form.text_field 'title', :required => true, :label => "Article's Title" %>
+      # <%= form.text_field 'title',
+      #                     :required => true,
+      #                     :label    => "Article's Title",
+      #                     :hint     => "Try not to use the letter 'e'." %>
       #
       # The code above generates the following HTML.  The :required entry in the hash
       # triggers the <em/> element and the :label overwrites the default field label,
@@ -19,6 +22,7 @@ module AirBlade
       #     <em class="required">(required)</em>
       #   </label>
       #   <input id="article_title" name="article[title]" type="text" value=""/>
+      #   <span class="hint">Try not to use the letter 'e'.</span>
       # </p>
       #
       # If the field's value is invalid, the <p/> is marked so and a <span/> is added
@@ -30,13 +34,30 @@ module AirBlade
       #     <span class="feedback">can't be blank</span>
       #   </label>
       #   <input id="article_title" name="article[title]" type="text" value=""/>
+      #   <span class="hint">Try not to use the letter 'e'.</span>
       # </p>
       def self.create_field_helper(field_helper)
         src = <<-END
           def #{field_helper}(method, options = {}, html_options = {})
             @template.content_tag('p',
               label_element(method, options, html_options) +
-              super(method, options),
+                super(method, options) +
+                hint_element(options),
+              (@object.errors[method].nil? ? {} : {:class => 'error'})
+            )
+          end
+        END
+        class_eval src, __FILE__, __LINE__
+      end
+
+      # TODO: DRY this with self.create_field_helper above.
+      def self.create_collection_field_helper(field_helper)
+        src = <<-END
+          def #{field_helper}(method, choices, options = {}, html_options = {})
+            @template.content_tag('p',
+              label_element(method, options, html_options) +
+                super(method, choices, options) +
+                hint_element(options),
               (@object.errors[method].nil? ? {} : {:class => 'error'})
             )
           end
@@ -46,8 +67,13 @@ module AirBlade
 
       # Beefs up the appropriate field helpers.
       %w( text_field text_area password_field file_field
-          country_select select check_box radio_button ).each do |name|
+          country_select check_box radio_button ).each do |name|
         create_field_helper name
+      end
+
+      # Beefs up the appropriate field helpers.
+      %w( select ).each do |name|
+        create_collection_field_helper name
       end
 
       # Within the form's block you can get good buttons with:
@@ -139,6 +165,18 @@ module AirBlade
         end
 
         @template.content_tag :label, value, html_options
+      end
+
+      # Writes out a <span/> element with a hint for how to fill in a field.
+      # Options:
+      #  - :hint: text for the hint.  Optional.
+      def hint_element(options = {})
+        hint = options.delete :hint
+        if hint
+          @template.content_tag :span, hint, :class => 'hint'
+        else
+          ''
+        end
       end
     end
 
