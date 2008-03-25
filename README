@@ -12,8 +12,14 @@ It generates Wufoo-style[2] buttons and links for submitting the form, cancellin
 Please send feedback to boss@airbladesoftware.com.
 
 
-Example
-=======
+HAML
+====
+See the comment in init.rb if you would like to use this plugin with HAML.
+Thanks to David Baldwin for the solution.
+
+
+ERB Example
+===========
 
 app/views/projects/new.html.erb:
 
