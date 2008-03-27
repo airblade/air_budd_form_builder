@@ -2,6 +2,7 @@ module AirBlade
   module AirBudd
 
     class FormBuilder < ActionView::Helpers::FormBuilder
+      include Haml::Helpers if defined? Haml       # for compatibility
       include ActionView::Helpers::TextHelper      # so we can use concat
       include ActionView::Helpers::CaptureHelper   # so we can use capture
 

@@ -5,17 +5,18 @@ A form builder that generates semantic HTML as advocated by Andy Budd in CSS Mas
 
 It generates Wufoo-style[2] buttons and links for submitting the form, cancelling it, etc.  These buttons and links use several icons from the FAMFAMFAM set[3].  You can choose not to use them if you don't want to.
 
-[1] http://www.cssmastery.com
-[2] http://particletree.com/features/rediscovering-the-button-element/
-[3] http://famfamfam.com/lab/icons/silk/
+[1]: http://www.cssmastery.com
+[2]: http://particletree.com/features/rediscovering-the-button-element/
+[3]: http://famfamfam.com/lab/icons/silk/
 
 Please send feedback to boss@airbladesoftware.com.
 
 
 HAML
 ====
-See the comment in init.rb if you would like to use this plugin with HAML.
-Thanks to David Baldwin for the solution.
+Thanks to David Baldwin[4], this form builder can be used with HAML.
+
+[4]: http://www.baldwindigital.net
 
 
 ERB Example
