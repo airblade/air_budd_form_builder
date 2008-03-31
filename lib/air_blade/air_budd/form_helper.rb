@@ -19,7 +19,8 @@ module AirBlade
       # TODO: complete this.  See README.
       def link_to_form(purpose, options = {}, html_options = nil)
         icon = case purpose
-               when :edit then 'pencil'
+               when :edit   then 'pencil'
+               when :delete then 'cross'
                end
         legend = ( icon.nil? ?
                    '' :

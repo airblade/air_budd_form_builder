@@ -109,8 +109,8 @@ module AirBlade
       # For visual feedback with colours and icons, save is seen
       # as a positive action; delete is negative.
       #
-      # type = :save|:cancel|:edit|:delete
-      # TODO :new|:all ?
+      # type = :new|:save|:cancel|:edit|:delete
+      # TODO :all ?
       #
       # Options you can use are:
       #   :label - The label for the button or text for the link.
@@ -120,7 +120,9 @@ module AirBlade
       #   :url   - The URL to link to (only used in links).
       #            Optional; defaults to ''.
       def button(purpose = :save, options = {})
+        # TODO: DRY the :a and :button.
         element, icon, nature = case purpose
+                                when :new    then [:a,      'add',        'positive']
                                 when :save   then [:button, 'tick',       'positive']
                                 when :cancel then [:a,      'arrow_undo', nil       ]
                                 when :edit   then [:a,      'pencil',     nil       ]
@@ -141,7 +143,7 @@ module AirBlade
       end
 
       def method_missing(*args, &block)
-        if args.first.to_s =~ /^(save|cancel|edit|delete)$/
+        if args.first.to_s =~ /^(new|save|cancel|edit|delete)$/
           button args.shift, *args, &block
         else
           super
