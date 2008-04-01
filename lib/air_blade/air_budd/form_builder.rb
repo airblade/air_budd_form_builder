@@ -87,7 +87,7 @@ module AirBlade
       # You can have save, cancel, edit and delete buttons.
       # Each one takes an optional label.  For example:
       #
-      #     <%= b.save 'Update' %>
+      #     <%= b.save :label => 'Update' %>
       #
       # See the documentation for the +button+ method for the
       # options you can use.
