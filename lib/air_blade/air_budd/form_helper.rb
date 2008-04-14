@@ -17,11 +17,13 @@ module AirBlade
 
       # Displays a link visually consistent with AirBudd form links.
       # TODO: complete this.  See README.
+      # TODO: DRY with FormBuilder#button implementation.
       def link_to_form(purpose, options = {}, html_options = nil)
         icon = case purpose
                when :new    then 'add'
                when :edit   then 'pencil'
-               when :delete then 'cross'
+               when :delete then 'cross'  # TODO: delete should be a button, not a link
+               when :cancel then 'arrow_undo'
                end
         if options.kind_of? String
           url = options
