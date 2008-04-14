@@ -68,7 +68,7 @@ module AirBlade
 
       # Beefs up the appropriate field helpers.
       %w( text_field text_area password_field file_field
-          country_select check_box radio_button ).each do |name|
+          date_select country_select check_box radio_button ).each do |name|
         create_field_helper name
       end
 
