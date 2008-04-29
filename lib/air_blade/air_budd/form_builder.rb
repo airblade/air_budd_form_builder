@@ -156,6 +156,8 @@ module AirBlade
       # Options:
       #  - :required: true if field is mandatory, false otherwise (default)
       #  - :label: text wrapped by the <label/>.  Optional (default is field's name).
+      #  - :capitalize: false if any error message should not be capitalised,
+      #    true otherwise.  Optional (default is true).
       def label_element(field, options = {}, html_options = {})
         value = "#{options.delete(:label) || field.to_s.humanize}:"
         value += ' <em class="required">(required)</em>' if options.delete(:required)
@@ -164,7 +166,10 @@ module AirBlade
         html_options['for'] ||= "#{@object_name}_#{field}"
 
         unless @object.errors[field].blank?
-          value += %Q( <span class="feedback">#{@object.errors[field].to_a.to_sentence.capitalize}.</span>)
+          error_msg = @object.errors[field].to_a.to_sentence
+          option_capitalize = options.delete :capitalize
+          error_msg = error_msg.capitalize unless option_capitalize == 'false' or option_capitalize == false
+          value += %Q( <span class="feedback">#{error_msg}.</span>)
         end
 
         @template.content_tag :label, value, html_options
