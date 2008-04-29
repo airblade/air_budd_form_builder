@@ -130,7 +130,7 @@ module AirBlade
                                 end
         legend = ( (options[:icon] == false || options[:icon] == 'false') ?
                    '' :
-                   "<img src='/images/icons/#{icon}.png' alt=''></img> " ) +
+                   "<img src='/images/icons/#{icon}.png' alt=''/> " ) +
                  (options[:label] || purpose.to_s.capitalize)
         attributes_for_element = {:class => nature}.merge(element == :button  ?
                                                           {:type => 'submit'} :
