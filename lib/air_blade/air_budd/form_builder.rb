@@ -156,10 +156,13 @@ module AirBlade
       # Options:
       #  - :required: true if field is mandatory, false otherwise (default)
       #  - :label: text wrapped by the <label/>.  Optional (default is field's name).
+      #  - :suffix: appended to the label.  Optional (default is ':').
       #  - :capitalize: false if any error message should not be capitalised,
       #    true otherwise.  Optional (default is true).
       def label_element(field, options = {}, html_options = {})
-        value = "#{options.delete(:label) || field.to_s.humanize}:"
+        text = options.delete(:label) || field.to_s.humanize
+        suffix = options.delete(:suffix) || ':'
+        value = text + suffix
         value += ' <em class="required">(required)</em>' if options.delete(:required)
 
         html_options.stringify_keys!
