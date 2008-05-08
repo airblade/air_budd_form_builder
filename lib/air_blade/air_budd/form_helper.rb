@@ -1,19 +1,19 @@
 module AirBlade
   module AirBudd
     module FormHelper
-      # Similar to +form_for+ but uses our form builder.
-      def airbudd_form_for(name, *args, &block)
-        options = args.last.is_a?(Hash) ? args.pop : {}
-        options = options.merge :builder => AirBlade::AirBudd::FormBuilder
-        form_for(name, *(args << options), &block)
+
+      # Define form helpers that use our form builder.
+      [ :form_for, :fields_for, :remote_form_for ].each do |method|
+        code = <<-END
+          def airbudd_#{method}(name, *args, &block)
+            options = args.last.is_a?(Hash) ? args.pop : {}
+            options = options.merge :builder => AirBlade::AirBudd::FormBuilder
+            #{method}(name, *(args << options), &block)
+          end
+        END
+        module_eval code, __FILE__, __LINE__
       end
 
-      # Similar to +fields_for+ but uses our form builder.
-      def airbudd_fields_for(name, *args, &block)
-        options = args.last.is_a?(Hash) ? args.pop : {}
-        options = options.merge :builder => AirBlade::AirBudd::FormBuilder
-        fields_for(name, *(args << options), &block)
-      end
 
       # Displays a link visually consistent with AirBudd form links.
       # TODO: complete this.  See README.
