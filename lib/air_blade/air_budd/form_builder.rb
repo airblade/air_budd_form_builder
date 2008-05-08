@@ -154,7 +154,9 @@ module AirBlade
 
       # Writes out a <label/> element for the given field.
       # Options:
-      #  - :required: true if field is mandatory, false otherwise (default)
+      #  - :required: text to indicate that field is required.  Optional: if not given,
+      #  field is not required.  If set to true instead of a string, default indicator
+      #  text is '(required)'.
       #  - :label: text wrapped by the <label/>.  Optional (default is field's name).
       #  - :suffix: appended to the label.  Optional (default is ':').
       #  - :capitalize: false if any error message should not be capitalised,
@@ -163,7 +165,10 @@ module AirBlade
         text = options.delete(:label) || field.to_s.humanize
         suffix = options.delete(:suffix) || ':'
         value = text + suffix
-        value += ' <em class="required">(required)</em>' if options.delete(:required)
+        if (required = options.delete(:required))
+          required = '(required)' if required == true
+          value += " <em class='required'>#{required}</em>"
+        end
 
         html_options.stringify_keys!
         html_options['for'] ||= "#{@object_name}_#{field}"
