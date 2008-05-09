@@ -6,6 +6,19 @@ module AirBlade
       include ActionView::Helpers::TextHelper      # so we can use concat
       include ActionView::Helpers::CaptureHelper   # so we can use capture
 
+      # We make copies (by aliasing) of ActionView::Helpers::FormBuilder's
+      # vanilla text_field and select methods, so we can use them in our
+      # latitude_field and longitude_field methods.
+      #
+      # NOTE: these alias_methods must come before we override the text_field
+      # and select methods.
+      #
+      # NOTE: this could be implemented more safely using Ara T Howard's technique,
+      # described here:
+      # http://blog.airbladesoftware.com/2008/1/17/note-to-self-overriding-a-method-with-a-mixin
+      alias_method :default_text_field, :text_field
+      alias_method :default_select, :select
+
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
       #
@@ -76,6 +89,81 @@ module AirBlade
       %w( select ).each do |name|
         create_collection_field_helper name
       end
+
+      # Support for GeoTools.
+      # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
+      def latitude_field(method, options = {}, html_options = {})
+        @template.content_tag('p',
+          label_element(method, options, html_options) +
+            (
+              default_text_field("#{method}_degrees", options.merge(
+                :id        => "#{@object_name}_#{method}_degrees",
+                :name      => "#{@object_name}[#{method}_degrees]",
+                :maxlength => 2 )) +
+              '&deg;' +
+
+              default_text_field("#{method}_minutes", options.merge(
+                :id        => "#{@object_name}_#{method}_minutes",
+                :name      => "#{@object_name}[#{method}_minutes]",
+                :maxlength => 2 )) +
+              '.' +
+
+              default_text_field("#{method}_milli_minutes", options.merge(
+                :id        => "#{@object_name}_#{method}_milli_minutes",
+                :name      => "#{@object_name}[#{method}_milli_minutes]",
+                # It would be better if we could do this post-processing
+                # in the first argument to the text_field method.
+                :value     => (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0'),
+                  :maxlength => 3 )) +
+              '&prime;' +
+
+              # Hmm, we pass the options in the html_options position.
+              default_select("#{method}_hemisphere", %w( N S ), {}, options.merge(
+                :id       => "#{@object_name}_#{method}_hemisphere",
+                :name     => "#{@object_name}[#{method}_hemisphere]" ))
+            ) +
+            hint_element(options),
+          (@object.errors[method].nil? ? {} : {:class => 'error'})
+        )
+      end
+
+      # Support for GeoTools.
+      # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
+      def longitude_field(method, options = {}, html_options = {})
+        @template.content_tag('p',
+          label_element(method, options, html_options) +
+            (
+              default_text_field("#{method}_degrees", options.merge(
+                :id        => "#{@object_name}_#{method}_degrees",
+                :name      => "#{@object_name}[#{method}_degrees]",
+                :maxlength => 3 )) +
+              '&deg;' +
+
+              default_text_field("#{method}_minutes", options.merge(
+                :id        => "#{@object_name}_#{method}_minutes",
+                :name      => "#{@object_name}[#{method}_minutes]",
+                :maxlength => 2 )) +
+              '.' +
+
+              default_text_field("#{method}_milli_minutes", options.merge(
+                :id        => "#{@object_name}_#{method}_milli_minutes",
+                :name      => "#{@object_name}[#{method}_milli_minutes]",
+                # It would be better if we could do this post-processing
+                # in the first argument to the text_field method.
+                :value     => (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0'),
+                  :maxlength => 3 )) +
+              '&prime;' +
+
+              # Hmm, we pass the options in the html_options position.
+              default_select("#{method}_hemisphere", %w( E W ), {}, options.merge(
+                :id       => "#{@object_name}_#{method}_hemisphere",
+                :name     => "#{@object_name}[#{method}_hemisphere]" ))
+            ) +
+            hint_element(options),
+          (@object.errors[method].nil? ? {} : {:class => 'error'})
+        )
+      end
+      
 
       # Within the form's block you can get good buttons with:
       #
