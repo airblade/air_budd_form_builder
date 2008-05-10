@@ -15,7 +15,12 @@ module AirBlade
       #
       # NOTE: this could be implemented more safely using Ara T Howard's technique,
       # described here:
-      # http://blog.airbladesoftware.com/2008/1/17/note-to-self-overriding-a-method-with-a-mixin
+      #
+      #   http://blog.airbladesoftware.com/2008/1/17/note-to-self-overriding-a-method-with-a-mixin
+      #
+      # See also the techniques described by Jay Fields here:
+      #
+      #   http://blog.jayfields.com/2008/04/alternatives-for-redefining-methods.html
       alias_method :vanilla_text_field, :text_field
       alias_method :vanilla_select,     :select
 
