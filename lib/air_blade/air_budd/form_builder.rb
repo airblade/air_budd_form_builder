@@ -16,8 +16,8 @@ module AirBlade
       # NOTE: this could be implemented more safely using Ara T Howard's technique,
       # described here:
       # http://blog.airbladesoftware.com/2008/1/17/note-to-self-overriding-a-method-with-a-mixin
-      alias_method :default_text_field, :text_field
-      alias_method :default_select, :select
+      alias_method :vanilla_text_field, :text_field
+      alias_method :vanilla_select,     :select
 
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
@@ -96,19 +96,19 @@ module AirBlade
         @template.content_tag('p',
           label_element(method, options, html_options) +
             (
-              default_text_field("#{method}_degrees", options.merge(
+              vanilla_text_field("#{method}_degrees", options.merge(
                 :id        => "#{@object_name}_#{method}_degrees",
                 :name      => "#{@object_name}[#{method}_degrees]",
                 :maxlength => 2 )) +
               '&deg;' +
 
-              default_text_field("#{method}_minutes", options.merge(
+              vanilla_text_field("#{method}_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_minutes",
                 :name      => "#{@object_name}[#{method}_minutes]",
                 :maxlength => 2 )) +
               '.' +
 
-              default_text_field("#{method}_milli_minutes", options.merge(
+              vanilla_text_field("#{method}_milli_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_milli_minutes",
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
                 # It would be better if we could do this post-processing
@@ -118,7 +118,7 @@ module AirBlade
               '&prime;' +
 
               # Hmm, we pass the options in the html_options position.
-              default_select("#{method}_hemisphere", %w( N S ), {}, options.merge(
+              vanilla_select("#{method}_hemisphere", %w( N S ), {}, options.merge(
                 :id       => "#{@object_name}_#{method}_hemisphere",
                 :name     => "#{@object_name}[#{method}_hemisphere]" ))
             ) +
@@ -133,19 +133,19 @@ module AirBlade
         @template.content_tag('p',
           label_element(method, options, html_options) +
             (
-              default_text_field("#{method}_degrees", options.merge(
+              vanilla_text_field("#{method}_degrees", options.merge(
                 :id        => "#{@object_name}_#{method}_degrees",
                 :name      => "#{@object_name}[#{method}_degrees]",
                 :maxlength => 3 )) +
               '&deg;' +
 
-              default_text_field("#{method}_minutes", options.merge(
+              vanilla_text_field("#{method}_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_minutes",
                 :name      => "#{@object_name}[#{method}_minutes]",
                 :maxlength => 2 )) +
               '.' +
 
-              default_text_field("#{method}_milli_minutes", options.merge(
+              vanilla_text_field("#{method}_milli_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_milli_minutes",
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
                 # It would be better if we could do this post-processing
@@ -155,7 +155,7 @@ module AirBlade
               '&prime;' +
 
               # Hmm, we pass the options in the html_options position.
-              default_select("#{method}_hemisphere", %w( E W ), {}, options.merge(
+              vanilla_select("#{method}_hemisphere", %w( E W ), {}, options.merge(
                 :id       => "#{@object_name}_#{method}_hemisphere",
                 :name     => "#{@object_name}[#{method}_hemisphere]" ))
             ) +
