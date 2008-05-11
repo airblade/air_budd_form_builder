@@ -62,7 +62,7 @@ module AirBlade
               label_element(method, options, html_options) +
                 super(method, options) +
                 hint_element(options),
-              (@object.errors[method].nil? ? {} : {:class => 'error'})
+              (errors_for?(method) ? {:class => 'error'} : {})
             )
           end
         END
@@ -266,7 +266,7 @@ module AirBlade
         html_options.stringify_keys!
         html_options['for'] ||= "#{@object_name}_#{field}"
 
-        unless @object.errors[field].blank?
+        if errors_for? field
           error_msg = @object.errors[field].to_a.to_sentence
           option_capitalize = options.delete :capitalize
           error_msg = error_msg.capitalize unless option_capitalize == 'false' or option_capitalize == false
@@ -287,7 +287,11 @@ module AirBlade
           ''
         end
       end
-    end
 
+      def errors_for?(method)
+        @object && @object.errors[method]
+      end
+
+    end
   end
 end
