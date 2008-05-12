@@ -77,7 +77,7 @@ module AirBlade
               label_element(method, options, html_options) +
                 super(method, choices, options) +
                 hint_element(options),
-              (@object.errors[method].nil? ? {} : {:class => 'error'})
+              (errors_for?(method) ? {:class => 'error'} : {})
             )
           end
         END
