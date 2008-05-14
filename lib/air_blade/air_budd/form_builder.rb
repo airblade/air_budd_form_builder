@@ -118,8 +118,8 @@ module AirBlade
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
                 # It would be better if we could do this post-processing
                 # in the first argument to the text_field method.
-                :value     => (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0'),
-                  :maxlength => 3 )) +
+                :value     => (@object ? (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0') : nil),
+                :maxlength => 3 )) +
               '&prime;' +
 
               # Hmm, we pass the options in the html_options position.
@@ -128,7 +128,7 @@ module AirBlade
                 :name     => "#{@object_name}[#{method}_hemisphere]" ))
             ) +
             hint_element(options),
-          (@object.errors[method].nil? ? {} : {:class => 'error'})
+          (errors_for?(method) ? {:class => 'error'} : {})
         )
       end
 
@@ -155,8 +155,8 @@ module AirBlade
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
                 # It would be better if we could do this post-processing
                 # in the first argument to the text_field method.
-                :value     => (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0'),
-                  :maxlength => 3 )) +
+                :value     => (@object ? (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0') : nil),
+                :maxlength => 3 )) +
               '&prime;' +
 
               # Hmm, we pass the options in the html_options position.
@@ -165,7 +165,7 @@ module AirBlade
                 :name     => "#{@object_name}[#{method}_hemisphere]" ))
             ) +
             hint_element(options),
-          (@object.errors[method].nil? ? {} : {:class => 'error'})
+          (errors_for?(method) ? {:class => 'error'} : {})
         )
       end
       
