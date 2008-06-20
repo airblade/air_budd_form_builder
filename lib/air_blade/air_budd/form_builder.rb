@@ -56,7 +56,7 @@ module AirBlade
       #   <span class="hint">Try not to use the letter 'e'.</span>
       # </p>
       #
-      # You can also pass a :suffix option.  This generates a <span/> between the
+      # You can also pass an :addendum option.  This generates a <span/> between the
       # <input/> and the hint.  Typically you would use this to show a small icon
       # for deleting the field.
       def self.create_field_helper(field_helper)
@@ -65,7 +65,7 @@ module AirBlade
             @template.content_tag('p',
               label_element(method, options, html_options) +
                 super(method, options) +
-                suffix_element(options) +
+                addendum_element(options) +
                 hint_element(options),
               (errors_for?(method) ? {:class => 'error'} : {})
             )
@@ -81,7 +81,7 @@ module AirBlade
             @template.content_tag('p',
               label_element(method, options, html_options) +
                 super(method, choices, options) +
-                suffix_element(options) +
+                addendum_element(options) +
                 hint_element(options),
               (errors_for?(method) ? {:class => 'error'} : {})
             )
@@ -297,10 +297,10 @@ module AirBlade
       # Writes out a <span/> element with something that follows a field.
       # Options:
       #  - :hint: text for the hint.  Optional.
-      def suffix_element(options = {})
-        suffix = options.delete :suffix
-        if suffix
-          @template.content_tag :span, suffix, :class => 'suffix'
+      def addendum_element(options = {})
+        addendum = options.delete :addendum
+        if addendum
+          @template.content_tag :span, addendum, :class => 'addendum'
         else
           ''
         end
