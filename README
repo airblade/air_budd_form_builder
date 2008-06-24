@@ -35,7 +35,7 @@ app/views/projects/new.html.erb:
 This renders:
 
   <form ...> <!-- standard Rails form element -->
-    <p>
+    <p class="text">
       <label for="article_title">Article's Title:
         <em class="required">(required)</em>
       </label>
@@ -49,7 +49,7 @@ This renders:
 
 And if the field's value is invalid:
 
-  <p class="error">
+  <p class="error text">
     <label for="article_title">Article's Title:
       <em class="required">(required)</em>
       <span class="feedback">can't be blank</span>

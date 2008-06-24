@@ -36,7 +36,7 @@ module AirBlade
       # triggers the <em/> element and the :label overwrites the default field label,
       # 'title' in this case, with its value.  The stanza is wrapped in a <p/> element.
       #
-      # <p>
+      # <p class="text">
       #   <label for="article_title">Article's Title:
       #     <em class="required">(required)</em>
       #   </label>
@@ -47,7 +47,7 @@ module AirBlade
       # If the field's value is invalid, the <p/> is marked so and a <span/> is added
       # with the (in)validation message:
       #
-      # <p class="error">
+      # <p class="error text">
       #   <label for="article_title">Article's Title:
       #     <em class="required">(required)</em>
       #     <span class="feedback">can't be blank</span>
@@ -63,11 +63,11 @@ module AirBlade
         src = <<-END
           def #{field_helper}(method, options = {}, html_options = {})
             @template.content_tag('p',
-              label_element(method, options, html_options) +
-                super(method, options) +
-                addendum_element(options) +
-                hint_element(options),
-              (errors_for?(method) ? {:class => 'error'} : {})
+                                  label_element(method, options, html_options) +
+                                    super(method, options) +
+                                    addendum_element(options) +
+                                    hint_element(options),
+                                  attributes_for(method, '#{field_helper}')
             )
           end
         END
@@ -79,16 +79,40 @@ module AirBlade
         src = <<-END
           def #{field_helper}(method, choices, options = {}, html_options = {})
             @template.content_tag('p',
-              label_element(method, options, html_options) +
-                super(method, choices, options) +
-                addendum_element(options) +
-                hint_element(options),
-              (errors_for?(method) ? {:class => 'error'} : {})
+                                  label_element(method, options, html_options) +
+                                    super(method, choices, options) +
+                                    addendum_element(options) +
+                                    hint_element(options),
+                                  attributes_for(method, '#{field_helper}')
             )
           end
         END
         class_eval src, __FILE__, __LINE__
       end
+
+      def attributes_for(method, field_helper)
+        # FIXME: there must be a neater way than below.  This is Ruby, after all.
+        attrs = {}
+        ary = []
+        ary << 'error' if errors_for?(method)
+        ary << input_type_for(field_helper) unless input_type_for(field_helper).blank?
+        ary.compact!
+        attrs[:class] = ary.join(' ') unless ary.empty?
+        attrs
+      end
+
+      def input_type_for(field_helper)
+        case field_helper
+        when 'check_box';      'checkbox'
+        when 'file_field';     'file'
+        when 'hidden_field';   'hidden'
+        when 'password_field'; 'password'
+        when 'radio_button';   'radio'
+        when 'text_field';     'text'
+        else ''
+        end
+      end
+
 
       # Beefs up the appropriate field helpers.
       %w( text_field text_area password_field file_field
