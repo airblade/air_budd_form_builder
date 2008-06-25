@@ -21,8 +21,9 @@ module AirBlade
       # See also the techniques described by Jay Fields here:
       #
       #   http://blog.jayfields.com/2008/04/alternatives-for-redefining-methods.html
-      alias_method :vanilla_text_field, :text_field
-      alias_method :vanilla_select,     :select
+      alias_method :vanilla_text_field,   :text_field
+      alias_method :vanilla_hidden_field, :hidden_field
+      alias_method :vanilla_select,       :select
 
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
@@ -72,6 +73,20 @@ module AirBlade
           end
         END
         class_eval src, __FILE__, __LINE__
+      end
+
+      # Creates a hidden input field and a simple <span/> using the same
+      # pattern as other form fields.
+      def read_only_text_field(method_for_text_field, method_for_hidden_field = nil, options = {}, html_options = {})
+        method_for_hidden_field ||= method_for_text_field
+        @template.content_tag('p',
+                              label_element(method_for_text_field, options, html_options) +
+                                vanilla_hidden_field(method_for_hidden_field, options) +
+                                @template.content_tag('span', object.send(method_for_text_field)) +
+                                addendum_element(options) +
+                                hint_element(options),
+                              attributes_for(method_for_text_field, 'text_field')
+        )
       end
 
       # TODO: DRY this with self.create_field_helper above.
