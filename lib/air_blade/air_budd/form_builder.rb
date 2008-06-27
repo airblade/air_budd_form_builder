@@ -272,7 +272,7 @@ module AirBlade
                  (options[:label] || purpose.to_s.capitalize)
 
         html_options.merge!(:class => nature)
-        if element == button
+        if element == :button
           html_options.merge!(:type => 'submit')
         else
           html_options.merge!(:href => (options[:url] || ''))
