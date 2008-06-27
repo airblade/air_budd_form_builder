@@ -257,7 +257,7 @@ module AirBlade
       #            Optional; icon will be shown unless :icon set to false.
       #   :url   - The URL to link to (only used in links).
       #            Optional; defaults to ''.
-      def button(purpose = :save, options = {})
+      def button(purpose = :save, options = {}, html_options = {})
         # TODO: DRY the :a and :button.
         element, icon, nature = case purpose
                                 when :new    then [:a,      'add',        'positive']
@@ -270,14 +270,19 @@ module AirBlade
                    '' :
                    "<img src='/images/icons/#{icon}.png' alt=''/> " ) +
                  (options[:label] || purpose.to_s.capitalize)
-        attributes_for_element = {:class => nature}.merge(element == :button  ?
-                                                          {:type => 'submit'} :
-                                                          {:href => (options[:url] || '')} )
+
+        html_options.merge!(:class => nature)
+        if element == button
+          html_options.merge!(:type => 'submit')
+        else
+          html_options.merge!(:href => (options[:url] || ''))
+        end
+
         # TODO: separate button and link construction and use
         # link_to to gain its functionality, e.g. :back?
         @template.content_tag(element.to_s,
                               legend,
-                              attributes_for_element)
+                              html_options)
       end
 
       def method_missing(*args, &block)
