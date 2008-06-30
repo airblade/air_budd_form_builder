@@ -161,9 +161,6 @@ module AirBlade
               vanilla_text_field("#{method}_milli_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_milli_minutes",
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
-                # It would be better if we could do this post-processing
-                # in the first argument to the text_field method.
-                :value     => (@object ? (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0') : nil),
                 :maxlength => 3 )) +
               '&prime;' +
 
@@ -198,9 +195,6 @@ module AirBlade
               vanilla_text_field("#{method}_milli_minutes", options.merge(
                 :id        => "#{@object_name}_#{method}_milli_minutes",
                 :name      => "#{@object_name}[#{method}_milli_minutes]",
-                # It would be better if we could do this post-processing
-                # in the first argument to the text_field method.
-                :value     => (@object ? (@object.send("#{method}_milli_minutes").to_s.rjust 3, '0') : nil),
                 :maxlength => 3 )) +
               '&prime;' +
 
