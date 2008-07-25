@@ -75,6 +75,20 @@ module AirBlade
         class_eval src, __FILE__, __LINE__
       end
 
+      def self.create_short_field_helper(field_helper)
+        src = <<-END
+          def #{field_helper}(method, options = {}, html_options = {})
+            @template.content_tag('p',
+                                  super(method, options) +
+                                    label_element(method, options, html_options) +
+                                    hint_element(options),
+                                  attributes_for(method, '#{field_helper}')
+            )
+          end
+        END
+        class_eval src, __FILE__, __LINE__
+      end
+
       # Creates a hidden input field and a simple <span/> using the same
       # pattern as other form fields.
       def read_only_text_field(method_for_text_field, method_for_hidden_field = nil, options = {}, html_options = {})
@@ -134,8 +148,13 @@ module AirBlade
 
       # Beefs up the appropriate field helpers.
       %w( text_field text_area password_field file_field
-          date_select country_select check_box radio_button ).each do |name|
+          date_select country_select ).each do |name|
         create_field_helper name
+      end
+
+      # Beefs up the appropriate field helpers.
+      %w( check_box radio_button ).each do |name|
+        create_short_field_helper name
       end
 
       # Beefs up the appropriate field helpers.
