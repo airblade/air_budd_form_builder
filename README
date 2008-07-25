@@ -70,6 +70,7 @@ DRY way to show consistent form links, e.g. edit, outside a form.
 Read-only field helper.
 Fieldset element.
 Legend element.
+Form-wide configuration (e.g. for suffix option).
 Example CSS:
   - for Wufoo-style buttons and links.
   - for CSS Mastery XHTML.
