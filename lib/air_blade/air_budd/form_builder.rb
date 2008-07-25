@@ -302,6 +302,7 @@ module AirBlade
       #  - :capitalize: false if any error message should not be capitalised,
       #    true otherwise.  Optional (default is true).
       def label_element(field, options = {}, html_options = {})
+        return '' if options.has_key?(:label) && options[:label].nil?
         text = options.delete(:label) || field.to_s.humanize
         suffix = options.delete(:suffix) || ':'
         value = text + suffix
