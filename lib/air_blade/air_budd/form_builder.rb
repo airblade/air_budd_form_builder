@@ -107,23 +107,26 @@ module AirBlade
 
       def attributes_for(method, field_helper)
         # FIXME: there must be a neater way than below.  This is Ruby, after all.
-        attrs = {}
         ary = []
         ary << 'error' if errors_for?(method)
         ary << input_type_for(field_helper) unless input_type_for(field_helper).blank?
-        ary.compact!
-        attrs[:class] = ary.join(' ') unless ary.empty?
+        attrs = {}
+        attrs[:class] = ary.reject{ |x| x.blank? }.join(' ') unless ary.empty?
         attrs
       end
 
       def input_type_for(field_helper)
         case field_helper
-        when 'check_box';      'checkbox'
+        when 'text_field';     'text'
+        when 'text_area';      'text'
+        when 'password_field'; 'password'
         when 'file_field';     'file'
         when 'hidden_field';   'hidden'
-        when 'password_field'; 'password'
+        when 'check_box';      'checkbox'
         when 'radio_button';   'radio'
-        when 'text_field';     'text'
+        when 'select';         'select'
+        when 'date_select';    'select'
+        when 'country_select'; 'select'
         else ''
         end
       end
