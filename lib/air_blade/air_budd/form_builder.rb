@@ -140,6 +140,7 @@ module AirBlade
         when 'radio_button';   'radio'
         when 'select';         'select'
         when 'date_select';    'select'
+        when 'time_select';    'select'
         when 'country_select'; 'select'
         else ''
         end
@@ -148,7 +149,7 @@ module AirBlade
 
       # Beefs up the appropriate field helpers.
       %w( text_field text_area password_field file_field
-          date_select country_select ).each do |name|
+          date_select time_select country_select ).each do |name|
         create_field_helper name
       end
 
