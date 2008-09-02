@@ -167,30 +167,12 @@ module AirBlade
       # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
       def latitude_field(method, options = {}, html_options = {})
         @template.content_tag('p',
-          label_element(method, options, html_options) +
-            (
-              vanilla_text_field("#{method}_degrees", options.merge(
-                :id        => "#{@object_name}_#{method}_degrees",
-                :name      => "#{@object_name}[#{method}_degrees]",
-                :maxlength => 2 )) +
-              '&deg;' +
-
-              vanilla_text_field("#{method}_minutes", options.merge(
-                :id        => "#{@object_name}_#{method}_minutes",
-                :name      => "#{@object_name}[#{method}_minutes]",
-                :maxlength => 2 )) +
-              '.' +
-
-              vanilla_text_field("#{method}_milli_minutes", options.merge(
-                :id        => "#{@object_name}_#{method}_milli_minutes",
-                :name      => "#{@object_name}[#{method}_milli_minutes]",
-                :maxlength => 3 )) +
-              '&prime;' +
-
+          label_element(method, options, html_options) + (
+              vanilla_text_field("#{method}_degrees",       options.merge(:maxlength => 2)) + '&deg;'   +
+              vanilla_text_field("#{method}_minutes",       options.merge(:maxlength => 2)) + '.'       +
+              vanilla_text_field("#{method}_milli_minutes", options.merge(:maxlength => 3)) + '&prime;' +
               # Hmm, we pass the options in the html_options position.
-              vanilla_select("#{method}_hemisphere", %w( N S ), {}, options.merge(
-                :id       => "#{@object_name}_#{method}_hemisphere",
-                :name     => "#{@object_name}[#{method}_hemisphere]" ))
+              vanilla_select("#{method}_hemisphere", %w( N S ), {}, options)
             ) +
             hint_element(options),
           (errors_for?(method) ? {:class => 'error'} : {})
@@ -201,30 +183,12 @@ module AirBlade
       # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
       def longitude_field(method, options = {}, html_options = {})
         @template.content_tag('p',
-          label_element(method, options, html_options) +
-            (
-              vanilla_text_field("#{method}_degrees", options.merge(
-                :id        => "#{@object_name}_#{method}_degrees",
-                :name      => "#{@object_name}[#{method}_degrees]",
-                :maxlength => 3 )) +
-              '&deg;' +
-
-              vanilla_text_field("#{method}_minutes", options.merge(
-                :id        => "#{@object_name}_#{method}_minutes",
-                :name      => "#{@object_name}[#{method}_minutes]",
-                :maxlength => 2 )) +
-              '.' +
-
-              vanilla_text_field("#{method}_milli_minutes", options.merge(
-                :id        => "#{@object_name}_#{method}_milli_minutes",
-                :name      => "#{@object_name}[#{method}_milli_minutes]",
-                :maxlength => 3 )) +
-              '&prime;' +
-
+          label_element(method, options, html_options) + (
+              vanilla_text_field("#{method}_degrees",       options.merge(:maxlength => 3)) + '&deg;'   +
+              vanilla_text_field("#{method}_minutes",       options.merge(:maxlength => 2)) + '.'       +
+              vanilla_text_field("#{method}_milli_minutes", options.merge(:maxlength => 3)) + '&prime;' +
               # Hmm, we pass the options in the html_options position.
-              vanilla_select("#{method}_hemisphere", %w( E W ), {}, options.merge(
-                :id       => "#{@object_name}_#{method}_hemisphere",
-                :name     => "#{@object_name}[#{method}_hemisphere]" ))
+              vanilla_select("#{method}_hemisphere", %w( E W ), {}, options)
             ) +
             hint_element(options),
           (errors_for?(method) ? {:class => 'error'} : {})
