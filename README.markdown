@@ -63,11 +63,11 @@ See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 To Do
 =====
 
-* Fix country_select so it handles priority countries and options.  It's currently broken.
-* Wrapper for options_group_from_collection_for_select.
+* Fix `country_select` so it handles priority countries and options.  It's currently broken.
+* Wrapper for `options_group_from_collection_for_select`.
 * DRY way to show consistent form links, e.g. edit, outside a form.
-  - include link_to_function, link_to_remote, etc.
-  - Cf AirBlade::AirBudd::FormHelper#link_to_form.
+  - include `link_to_function`, `link_to_remote`, etc.
+  - Cf `AirBlade::AirBudd::FormHelper#link_to_form`.
   - Do we need to wrap buttons/links in a div?  (Probably semantically good to do so?)
 * Two read-only field helpers: one for within a form, containing the value so it can be submitted, and one for the 'show' page, so we can use the same markup and CSS (c.f. http://tomayko.com/writings/administrative-debris)..
 * Form-wide configuration (e.g. for suffix option).
@@ -75,7 +75,7 @@ To Do
   - for Wufoo-style buttons and links.
   - for CSS Mastery XHTML.
 * Summary error messages.
-* Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's with_action plugin: http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons
+* Consider how to handle multiple actions, e.g. 'save & create another', 'save & keep editing'.  See Brandon Keepers's [with_action plugin](http://opensoul.org/2007/7/16/handling-forms-with-multiple-buttons).
 
 
 Copyright (c) 2007 Andrew Stewart, released under the MIT license.
