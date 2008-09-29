@@ -1,9 +1,9 @@
 AirBuddFormBuilder
 ==================
 
-A form builder that generates semantic HTML as advocated by Andy Budd in CSS Mastery[1].
+A form builder that generates semantic HTML as advocated by Andy Budd in [CSS Mastery][1].
 
-It generates Wufoo-style[2] buttons and links for submitting the form, cancelling it, etc.  These buttons and links use several icons from the FAMFAMFAM set[3].  You can choose not to use them if you don't want to.
+It generates [Wufoo-style][2] buttons and links for submitting the form, cancelling it, etc.  These buttons and links use several icons from the [FAMFAMFAM set][3].  You can choose not to use them if you don't want to.
 
 [1]: http://www.cssmastery.com
 [2]: http://particletree.com/features/rediscovering-the-button-element/
@@ -14,7 +14,7 @@ Please send feedback to boss@airbladesoftware.com.
 
 HAML
 ====
-Thanks to David Baldwin[4], this form builder can be used with HAML.
+Thanks to [David Baldwin][4], this form builder can be used with HAML.
 
 [4]: http://www.baldwindigital.net
 
@@ -24,38 +24,38 @@ ERB Example
 
 app/views/projects/new.html.erb:
 
-  <% airbudd_form_for @project do |f| %>
-    <%= f.text_field :title, :required => true, :name => "Article's Title" %>
-    <% f.buttons do |b| %>
-      <%= b.save %>
-      <%= b.cancel :url => projects_path %>
+    <% airbudd_form_for @project do |f| %>
+      <%= f.text_field :title, :required => true, :name => "Article's Title" %>
+      <% f.buttons do |b| %>
+        <%= b.save %>
+        <%= b.cancel :url => projects_path %>
+      <% end %>
     <% end %>
-  <% end %>
 
 This renders:
 
-  <form ...> <!-- standard Rails form element -->
-    <p class="text">
-      <label for="article_title">Article's Title:
-        <em class="required">(required)</em>
-      </label>
-      <input id="article_title" name="article[title]" type="text" value=""/>
-    </p>
-    <div class="buttons">
-      <button type="submit" class="positive"><img src="/images/icons/tick.png" alt=""/> Save</button>
-      <a href="/projects"><img src="/images/icons.pencil.png" alt=""/> Cancel</a>
-    </div>
-  </form>
+    <form ...> <!-- standard Rails form element -->
+      <p class="text">
+        <label for="article_title">Article's Title:
+          <em class="required">(required)</em>
+        </label>
+        <input id="article_title" name="article[title]" type="text" value=""/>
+      </p>
+      <div class="buttons">
+        <button type="submit" class="positive"><img src="/images/icons/tick.png" alt=""/> Save</button>
+        <a href="/projects"><img src="/images/icons.pencil.png" alt=""/> Cancel</a>
+      </div>
+    </form>
 
 And if the field's value is invalid:
 
-  <p class="error text">
-    <label for="article_title">Article's Title:
-      <em class="required">(required)</em>
-      <span class="feedback">can't be blank</span>
-    </label>
-    <input id="article_title" name="article[title]" type="text" value=""/>
-  </p>
+    <p class="error text">
+      <label for="article_title">Article's Title:
+        <em class="required">(required)</em>
+        <span class="feedback">can't be blank</span>
+      </label>
+      <input id="article_title" name="article[title]" type="text" value=""/>
+    </p>
 
 See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 
