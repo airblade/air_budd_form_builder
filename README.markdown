@@ -78,13 +78,17 @@ config/initializers/form_builder.rb:
     
 * Per form:
 
-      - airbudd_form_for @member do |f|
-        - f.required_signifier = '*'
-        = f.text_field :name
+In your form:
+
+    - airbudd_form_for @member do |f|
+      - f.required_signifier = '*'
+      = f.text_field :name
 
 * Per field:
 
-      = f.text_field :name, :required => true, :suffix => ''
+On a form field:
+
+    = f.text_field :name, :required => true, :suffix => ''
 
 See the comments in the form builder's code for the exact configuration options available.
 
