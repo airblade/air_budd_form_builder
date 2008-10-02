@@ -60,6 +60,33 @@ And if the field's value is invalid:
 See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 
 
+Configuration
+=============
+
+You can configure the form builder at three levels: app-wide, per-form, and per-field.  The per-field configuration differs slightly from the other two.
+
+* App-wide:
+
+config/initializers/form_builder.rb:
+
+    AirBlade::AirBudd::FormBuilder.default_options.merge!({
+      :required_signifier => '*',
+      :label_suffix => '',
+    })
+    
+* Perform:
+
+    - airbudd_form_for @member do |f|
+      - f.required_signifier = '*'
+      = f.text_field :name
+
+* Per field:
+
+    = f.text_field :name, :required => true, :suffix => ''
+
+See the comments in the form builder's code for the exact configuration options available.
+
+
 To Do
 =====
 
@@ -70,7 +97,6 @@ To Do
   - Cf `AirBlade::AirBudd::FormHelper#link_to_form`.
   - Do we need to wrap buttons/links in a div?  (Probably semantically good to do so?)
 * Two read-only field helpers: one for within a form, containing the value so it can be submitted, and one for the 'show' page, so we can use the same markup and CSS (c.f. http://tomayko.com/writings/administrative-debris)..
-* Form-wide configuration (e.g. for suffix option).
 * Example CSS:
   - for Wufoo-style buttons and links.
   - for CSS Mastery XHTML.

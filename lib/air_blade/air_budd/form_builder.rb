@@ -6,6 +6,36 @@ module AirBlade
       include ActionView::Helpers::TextHelper      # so we can use concat
       include ActionView::Helpers::CaptureHelper   # so we can use capture
 
+      # App-wide form configuration.
+      # E.g. in config/initializers/form_builder.rb:
+      #
+      #   AirBlade::AirBudd::FormBuilder.default_options[:required_signifier] = '*'
+      #
+      @@default_options = {
+        :required_signifier => '(required)',
+        :label_suffix => ':',
+        :capitalize_errors => true,
+      }
+      cattr_accessor :default_options
+
+      # Per-form configuration (overrides app-wide form configuration).
+      # E.g. in a form itself:
+      #
+      #   - airbudd_form_for @member do |f|
+      #     - f.required_signifier = '*'
+      #     = f.text_field :name
+      #     ...etc...
+      #
+      attr_writer *default_options.keys
+      default_options.keys.each do |field|
+        src = <<-END_SRC
+          def #{field}
+            @#{field} || default_options[:#{field}]
+          end
+        END_SRC
+        class_eval src, __FILE__, __LINE__
+      end
+
       # We make copies (by aliasing) of ActionView::Helpers::FormBuilder's
       # vanilla text_field and select methods, so we can use them in our
       # latitude_field and longitude_field methods.
@@ -288,10 +318,10 @@ module AirBlade
       def label_element(field, options = {}, html_options = {})
         return '' if options.has_key?(:label) && options[:label].nil?
         text = options.delete(:label) || field.to_s.humanize
-        suffix = options.delete(:suffix) || ':'
+        suffix = options.delete(:suffix) || label_suffix
         value = text + suffix
         if (required = options.delete(:required))
-          required = '(required)' if required == true
+          required = required_signifier if required == true
           value += " <em class='required'>#{required}</em>"
         end
 
@@ -300,7 +330,7 @@ module AirBlade
 
         if errors_for? field
           error_msg = @object.errors[field].to_a.to_sentence
-          option_capitalize = options.delete :capitalize
+          option_capitalize = options.delete(:capitalize) || capitalize_errors
           error_msg = error_msg.capitalize unless option_capitalize == 'false' or option_capitalize == false
           value += %Q( <span class="feedback">#{error_msg}.</span>)
         end
