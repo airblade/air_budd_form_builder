@@ -63,6 +63,8 @@ See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 Configuration
 =============
 
+Thanks to Dan Webb, whose [Enhanced Form Builder](http://svn.danwebb.net/external/rails/plugins/enhanced_form_builder/lib/enhanced_form_builder/form_builder.rb) configuration I borrowed.
+
 You can configure the form builder at three levels: app-wide, per-form, and per-field.  The per-field configuration differs slightly from the other two.
 
 * App-wide:
@@ -74,15 +76,15 @@ config/initializers/form_builder.rb:
       :label_suffix => '',
     })
     
-* Perform:
+* Per form:
 
-    - airbudd_form_for @member do |f|
-      - f.required_signifier = '*'
-      = f.text_field :name
+      - airbudd_form_for @member do |f|
+        - f.required_signifier = '*'
+        = f.text_field :name
 
 * Per field:
 
-    = f.text_field :name, :required => true, :suffix => ''
+      = f.text_field :name, :required => true, :suffix => ''
 
 See the comments in the form builder's code for the exact configuration options available.
 
