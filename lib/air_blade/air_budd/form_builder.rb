@@ -320,7 +320,7 @@ module AirBlade
         text = options.delete(:label) || field.to_s.humanize
         suffix = options.delete(:suffix) || label_suffix
         value = text + suffix
-        if (required = options.delete(:required))
+        if (required = mandatory?(field, options.delete(:required)))
           required = required_signifier if required == true
           value += " <em class='required'>#{required}</em>"
         end
@@ -336,6 +336,14 @@ module AirBlade
         end
 
         @template.content_tag :label, value, html_options
+      end
+
+      def mandatory?(method, override = nil)
+        return override unless override.nil?
+        # Leverage vendor/validation_reflection.rb
+        if @object.class.respond_to? :reflect_on_validations_for
+          @object.class.reflect_on_validations_for(method).any? { |v| v.macro == :validates_presence_of }
+        end
       end
 
       # Writes out a <span/> element with a hint for how to fill in a field.

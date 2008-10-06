@@ -60,6 +60,12 @@ And if the field's value is invalid:
 See Mr Budd's good book for discussion of the HTML and the CSS to go with it.
 
 
+Required fields
+===============
+
+Thanks to Bill, the form builder automatically detects required fields (by looking for :validates_presence_of in the model) and marks them up appropriately.
+
+
 Configuration
 =============
 
