@@ -36,6 +36,8 @@ module AirBlade
         class_eval src, __FILE__, __LINE__
       end
 
+      @@field_keys = [:hint, :required, :label, :addendum, :suffix]
+
       # We make copies (by aliasing) of ActionView::Helpers::FormBuilder's
       # vanilla text_field and select methods, so we can use them in our
       # latitude_field and longitude_field methods.
@@ -95,7 +97,7 @@ module AirBlade
           def #{field_helper}(method, options = {}, html_options = {})
             @template.content_tag('p',
                                   label_element(method, options, html_options) +
-                                    super(method, options) +
+                                    super(method, options.except(*@@field_keys)) +
                                     addendum_element(options) +
                                     hint_element(options),
                                   attributes_for(method, '#{field_helper}')
@@ -109,7 +111,7 @@ module AirBlade
         src = <<-END
           def #{field_helper}(method, options = {}, html_options = {})
             @template.content_tag('p',
-                                  super(method, options) +
+                                  super(method, options.except(*@@field_keys)) +
                                     label_element(method, options, html_options) +
                                     hint_element(options),
                                   attributes_for(method, '#{field_helper}')
@@ -139,7 +141,7 @@ module AirBlade
           def #{field_helper}(method, choices, options = {}, html_options = {})
             @template.content_tag('p',
                                   label_element(method, options, html_options) +
-                                    super(method, choices, options) +
+                                    super(method, choices, options.except(*@@field_keys)) +
                                     addendum_element(options) +
                                     hint_element(options),
                                   attributes_for(method, '#{field_helper}')
