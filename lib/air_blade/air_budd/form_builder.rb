@@ -299,6 +299,7 @@ module AirBlade
       end
 
       def method_missing(*args, &block)
+        # Button method
         if args.first.to_s =~ /^(new|save|cancel|edit|delete)$/
           button args.shift, *args, &block
         else
@@ -373,7 +374,7 @@ module AirBlade
       end
 
       def errors_for?(method)
-        @object && @object.errors[method]
+        @object && @object.respond_to?(:errors) && @object.errors[method]
       end
 
     end
