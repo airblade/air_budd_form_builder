@@ -5,6 +5,7 @@ module AirBlade
       include Haml::Helpers if defined? Haml       # for compatibility
       include ActionView::Helpers::TextHelper      # so we can use concat
       include ActionView::Helpers::CaptureHelper   # so we can use capture
+      include ActionView::Helpers::TagHelper       # so we can use concat
 
       # App-wide form configuration.
       # E.g. in config/initializers/form_builder.rb:
@@ -247,9 +248,8 @@ module AirBlade
       # but then your button would not be wrapped with a div of class
       # 'buttons'.  The div is needed for the CSS.
       def buttons(&block)
-        content = capture(self, &block)
         concat '<div class="buttons">', block.binding
-        concat content, block.binding
+        yield self
         concat '</div>', block.binding
       end
 
@@ -375,6 +375,14 @@ module AirBlade
 
       def errors_for?(method)
         @object && @object.respond_to?(:errors) && @object.errors[method]
+      end
+
+      def output_buffer
+        @template.output_buffer
+      end
+
+      def output_buffer=(buffer)
+        @template.output_buffer = buffer
       end
 
     end
