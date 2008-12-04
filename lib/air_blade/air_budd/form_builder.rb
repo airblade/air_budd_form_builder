@@ -320,7 +320,7 @@ module AirBlade
       #    true otherwise.  Optional (default is true).
       def label_element(field, options = {}, html_options = {})
         return '' if options.has_key?(:label) && options[:label].nil?
-        text = options.delete(:label) || field.to_s.humanize
+        text = options.delete(:label) || (@object.nil? ? field.to_s.humanize : @object.class.human_attribute_name(field.to_s))
         suffix = options.delete(:suffix) || label_suffix
         value = text + suffix
         if (required = mandatory?(field, options.delete(:required)))
