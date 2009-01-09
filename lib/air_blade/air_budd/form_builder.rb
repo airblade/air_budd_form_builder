@@ -39,24 +39,7 @@ module AirBlade
 
       @@field_keys = [:hint, :required, :label, :addendum, :suffix]
 
-      # We make copies (by aliasing) of ActionView::Helpers::FormBuilder's
-      # vanilla text_field and select methods, so we can use them in our
-      # latitude_field and longitude_field methods.
-      #
-      # NOTE: these alias_methods must come before we override the text_field
-      # and select methods.
-      #
-      # NOTE: this could be implemented more safely using Ara T Howard's technique,
-      # described here:
-      #
-      #   http://blog.airbladesoftware.com/2008/1/17/note-to-self-overriding-a-method-with-a-mixin
-      #
-      # See also the techniques described by Jay Fields here:
-      #
-      #   http://blog.jayfields.com/2008/04/alternatives-for-redefining-methods.html
-      alias_method :vanilla_text_field,   :text_field
       alias_method :vanilla_hidden_field, :hidden_field
-      alias_method :vanilla_select,       :select
 
       # Creates a glorified form field helper.  It takes a form helper's usual
       # arguments with an optional options hash:
@@ -196,38 +179,6 @@ module AirBlade
         create_collection_field_helper name
       end
 
-      # Support for GeoTools.
-      # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
-      def latitude_field(method, options = {}, html_options = {})
-        @template.content_tag('p',
-          label_element(method, options, html_options) + (
-              vanilla_text_field("#{method}_degrees",       options.merge(:maxlength => 2)) + '&deg;'   +
-              vanilla_text_field("#{method}_minutes",       options.merge(:maxlength => 2)) + '.'       +
-              vanilla_text_field("#{method}_milli_minutes", options.merge(:maxlength => 3)) + '&prime;' +
-              # Hmm, we pass the options in the html_options position.
-              vanilla_select("#{method}_hemisphere", %w( N S ), {}, options)
-            ) +
-            hint_element(options),
-          (errors_for?(method) ? {:class => 'error'} : {})
-        )
-      end
-
-      # Support for GeoTools.
-      # http://opensource.airbladesoftware.com/trunk/plugins/geo_tools/
-      def longitude_field(method, options = {}, html_options = {})
-        @template.content_tag('p',
-          label_element(method, options, html_options) + (
-              vanilla_text_field("#{method}_degrees",       options.merge(:maxlength => 3)) + '&deg;'   +
-              vanilla_text_field("#{method}_minutes",       options.merge(:maxlength => 2)) + '.'       +
-              vanilla_text_field("#{method}_milli_minutes", options.merge(:maxlength => 3)) + '&prime;' +
-              # Hmm, we pass the options in the html_options position.
-              vanilla_select("#{method}_hemisphere", %w( E W ), {}, options)
-            ) +
-            hint_element(options),
-          (errors_for?(method) ? {:class => 'error'} : {})
-        )
-      end
-      
 
       # Within the form's block you can get good buttons with:
       #
