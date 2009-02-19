@@ -199,9 +199,9 @@ module AirBlade
       # but then your button would not be wrapped with a div of class
       # 'buttons'.  The div is needed for the CSS.
       def buttons(&block)
-        concat '<div class="buttons">', block
+        concat '<div class="buttons">'
         yield self
-        concat '</div>', block
+        concat '</div>'
       end
 
       # Buttons and links for REST actions.  Actions that change
