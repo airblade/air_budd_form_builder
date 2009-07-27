@@ -25,7 +25,7 @@ ERB Example
 app/views/projects/new.html.erb:
 
     <% airbudd_form_for @project do |f| %>
-      <%= f.text_field :title, :required => true, :name => "Article's Title" %>
+      <%= f.text_field :title, :required => true, :label => "Article's Title" %>
       <% f.buttons do |b| %>
         <%= b.save %>
         <%= b.cancel :url => projects_path %>
