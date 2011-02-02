@@ -1,6 +1,8 @@
 AirBuddFormBuilder
 ==================
 
+*Please note I am no longer working on this.  It did the job admirably for a long time, but I now use [Simple Form](https://github.com/plataformatec/simple_form) instead.*
+
 A form builder that generates semantic HTML as advocated by Andy Budd in [CSS Mastery][1].
 
 It generates [Wufoo-style][2] buttons and links for submitting the form, cancelling it, etc.  These buttons and links use several icons from the [FAMFAMFAM set][3].  You can choose not to use them if you don't want to.
