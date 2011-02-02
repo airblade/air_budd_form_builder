@@ -104,6 +104,7 @@ See the comments in the form builder's code for the exact configuration options 
 To Do
 =====
 
+* Incorporate cxpartners' excellent [Web forms design guidelines](http://www.cxpartners.co.uk/thoughts/web_forms_design_guidelines_an_eyetracking_study.htm).
 * Fix `country_select` so it handles priority countries and options.  It's currently broken.
 * Wrapper for `options_group_from_collection_for_select`.
 * DRY way to show consistent form links, e.g. edit, outside a form.
